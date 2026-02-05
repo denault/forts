@@ -13,7 +13,8 @@ export class SignalingClient {
 
   constructor(url?: string) {
     const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    this.url = url || `${wsProtocol}//${window.location.hostname}:3001`;
+    const defaultUrl = import.meta.env.VITE_WS_URL || `${wsProtocol}//${window.location.hostname}:3001`;
+    this.url = url || defaultUrl;
   }
 
   connect(): Promise<void> {

@@ -18,7 +18,10 @@ COPY tsconfig.base.json ./
 COPY packages/shared ./packages/shared
 COPY packages/client ./packages/client
 
-# Build
+# Build with WebSocket URL
+ARG VITE_WS_URL
+ENV VITE_WS_URL=$VITE_WS_URL
+
 RUN pnpm --filter @p2p-rooms/shared build && pnpm --filter @p2p-rooms/client build
 
 # Production stage - serve static files
