@@ -5,6 +5,15 @@ export default defineConfig({
   plugins: [react()],
   define: {
     global: 'globalThis',
+    'process.env': {},
+  },
+  resolve: {
+    alias: {
+      events: 'events',
+    },
+  },
+  optimizeDeps: {
+    include: ['simple-peer', 'events'],
   },
   server: {
     port: 3000,

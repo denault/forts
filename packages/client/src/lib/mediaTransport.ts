@@ -63,18 +63,25 @@ export class MeshTransport {
 
   createPeer(peerId: string, initiator: boolean): void {
     if (this.connections.has(peerId)) {
-      console.log(`Peer ${peerId} already exists`);
+      console.log(`[WebRTC] Peer ${peerId} already exists`);
       return;
     }
 
-    console.log(`Creating ${initiator ? 'initiator' : 'receiver'} peer for ${peerId}`);
+    console.log(`[WebRTC] Creating ${initiator ? 'initiator' : 'receiver'} peer for ${peerId}`);
+    console.log(`[WebRTC] Local stream available: ${!!this.localStream}`);
 
-    const peer = new Peer({
-      initiator,
-      stream: this.localStream || undefined,
-      config: { iceServers: ICE_SERVERS },
-      trickle: true,
-    });
+    let peer: Peer.Instance;
+    try {
+      peer = new Peer({
+        initiator,
+        stream: this.localStream || undefined,
+        config: { iceServers: ICE_SERVERS },
+        trickle: true,
+      });
+    } catch (err) {
+      console.error(`[WebRTC] Failed to create peer for ${peerId}:`, err);
+      return;
+    }
 
     peer.on('signal', (signal) => {
       console.log(`[WebRTC] Sending signal to ${peerId}:`, signal.type || 'candidate');
