@@ -28,7 +28,7 @@ RUN pnpm --filter @p2p-rooms/shared build && pnpm --filter @p2p-rooms/client bui
 FROM nginx:alpine
 
 COPY --from=builder /app/packages/client/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY packages/client/nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
