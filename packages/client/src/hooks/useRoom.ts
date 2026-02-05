@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, MutableRefObject } from 'react';
 import type Peer from 'simple-peer';
 import type { ServerMessage } from '@p2p-rooms/shared';
 import { SignalingClient } from '../lib/signaling';
@@ -12,7 +12,7 @@ interface UseRoomOptions {
 }
 
 export function useRoom({ localStream }: UseRoomOptions) {
-  const signalingRef = useRef<SignalingClient | null>(null);
+  const signalingRef = useRef<SignalingClient | null>(null) as MutableRefObject<SignalingClient | null>;
 
   const {
     roomId,
@@ -35,7 +35,7 @@ export function useRoom({ localStream }: UseRoomOptions) {
   const { isMuted, isCameraOff, isScreenSharing, reset: resetMedia } = useMediaStore();
 
   const { remoteStreams, createPeer, handleSignal, removePeer, destroyAll } = usePeers({
-    signalingClient: signalingRef.current,
+    signalingRef,
     localStream,
   });
 

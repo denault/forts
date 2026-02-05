@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, MutableRefObject } from 'react';
 import type Peer from 'simple-peer';
 import { MeshTransport } from '../lib/mediaTransport';
 import { SignalingClient } from '../lib/signaling';
 
 interface UsePeersOptions {
-  signalingClient: SignalingClient | null;
+  signalingRef: MutableRefObject<SignalingClient | null>;
   localStream: MediaStream | null;
 }
 
-export function usePeers({ signalingClient, localStream }: UsePeersOptions) {
+export function usePeers({ signalingRef, localStream }: UsePeersOptions) {
   const transportRef = useRef<MeshTransport | null>(null);
   const [remoteStreams, setRemoteStreams] = useState<Map<string, MediaStream>>(new Map());
 
@@ -56,13 +56,13 @@ export function usePeers({ signalingClient, localStream }: UsePeersOptions) {
     const transport = transportRef.current;
 
     transport.onSignalData((targetPeerId, signal) => {
-      signalingClient?.send({
+      signalingRef.current?.send({
         type: 'signal',
         targetPeerId,
         signal,
       });
     });
-  }, [signalingClient]);
+  }, [signalingRef]);
 
   const createPeer = useCallback((peerId: string, initiator: boolean) => {
     transportRef.current?.createPeer(peerId, initiator);
