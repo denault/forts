@@ -41,7 +41,7 @@ export default function JoinRoom() {
             <a href="#features" className="btn-ghost hidden sm:flex">Features</a>
             <a href="#security" className="btn-ghost hidden sm:flex">Security</a>
             <a
-              href="https://github.com"
+              href="https://github.com/denault/forts"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-ghost"
