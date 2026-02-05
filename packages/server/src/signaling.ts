@@ -148,9 +148,15 @@ export class SignalingServer {
     targetPeerId: string,
     signal: SignalData
   ): void {
-    if (!state.roomId) return;
+    if (!state.roomId) {
+      console.log(`[Signal] Ignored - peer ${state.peerId} not in a room`);
+      return;
+    }
+
+    console.log(`[Signal] Relaying from ${state.peerId} to ${targetPeerId}`);
 
     // Find target peer's WebSocket
+    let found = false;
     for (const [targetWs, targetState] of this.clients) {
       if (targetState.peerId === targetPeerId && targetState.roomId === state.roomId) {
         this.send(targetWs, {
@@ -158,8 +164,13 @@ export class SignalingServer {
           fromPeerId: state.peerId,
           signal,
         });
+        found = true;
         break;
       }
+    }
+
+    if (!found) {
+      console.log(`[Signal] Target peer ${targetPeerId} not found in room ${state.roomId}`);
     }
   }
 

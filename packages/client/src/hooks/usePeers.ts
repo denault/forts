@@ -56,11 +56,16 @@ export function usePeers({ signalingRef, localStream }: UsePeersOptions) {
     const transport = transportRef.current;
 
     transport.onSignalData((targetPeerId, signal) => {
-      signalingRef.current?.send({
-        type: 'signal',
-        targetPeerId,
-        signal,
-      });
+      if (signalingRef.current) {
+        console.log(`[Signaling] Sending signal to server for ${targetPeerId}`);
+        signalingRef.current.send({
+          type: 'signal',
+          targetPeerId,
+          signal,
+        });
+      } else {
+        console.error('[Signaling] No signaling client available!');
+      }
     });
   }, [signalingRef]);
 

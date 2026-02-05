@@ -77,10 +77,12 @@ export class MeshTransport {
     });
 
     peer.on('signal', (signal) => {
+      console.log(`[WebRTC] Sending signal to ${peerId}:`, signal.type || 'candidate');
       this.onSignal?.(peerId, signal);
     });
 
     peer.on('stream', (stream) => {
+      console.log(`[WebRTC] Received stream from ${peerId}:`, stream.getTracks().map(t => `${t.kind}:${t.enabled}`));
       const conn = this.connections.get(peerId);
       if (conn) {
         conn.stream = stream;
@@ -108,10 +110,12 @@ export class MeshTransport {
   }
 
   handleSignal(fromPeerId: string, signal: Peer.SignalData): void {
+    console.log(`[WebRTC] Received signal from ${fromPeerId}:`, signal.type || 'candidate');
     let conn = this.connections.get(fromPeerId);
 
     // If we receive a signal but don't have a connection, create one as non-initiator
     if (!conn) {
+      console.log(`[WebRTC] No connection for ${fromPeerId}, creating as non-initiator`);
       this.createPeer(fromPeerId, false);
       conn = this.connections.get(fromPeerId);
     }
@@ -120,7 +124,7 @@ export class MeshTransport {
       try {
         conn.peer.signal(signal);
       } catch (err) {
-        console.error(`Failed to handle signal for ${fromPeerId}:`, err);
+        console.error(`[WebRTC] Failed to handle signal for ${fromPeerId}:`, err);
       }
     }
   }
