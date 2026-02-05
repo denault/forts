@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-canvas text-ink-base font-body;
+    margin: 0;
+    padding: 0;
+  }
+
+  ::selection {
+    @apply bg-brand/30 text-white;
+  }
+}
+
+@layer components {
+  /* Input fields - clean, professional */
+  .input {
+    @apply w-full px-4 py-3 bg-canvas-800 border border-canvas-600 rounded-lg
+           text-ink-strong placeholder-ink-faint
+           focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand/50
+           transition-all duration-150;
+  }
+
+  .input-lg {
+    @apply input py-4 text-lg;
+  }
+
+  /* Primary button - Stripe-style gradient border effect */
+  .btn {
+    @apply relative inline-flex items-center justify-center gap-2
+           px-5 py-2.5 font-semibold text-sm rounded-lg
+           transition-all duration-150
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand text-white
+           hover:bg-brand-400 active:bg-brand-600
+           shadow-lg shadow-brand/25 hover:shadow-xl hover:shadow-brand/30
+           hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply btn bg-canvas-700 text-ink-base border border-canvas-600
+           hover:bg-canvas-600 hover:border-canvas-500;
+  }
+
+  .btn-ghost {
+    @apply btn text-ink-muted hover:text-ink-base hover:bg-canvas-800;
+  }
+
+  .btn-danger {
+    @apply btn bg-red-500/10 text-red-400 border border-red-500/20
+           hover:bg-red-500/20;
+  }
+
+  /* Cards with subtle glow */
+  .card {
+    @apply bg-canvas-800/60 backdrop-blur-xl border border-canvas-600/50 rounded-xl
+           shadow-inner-glow;
+  }
+
+  .card-interactive {
+    @apply card hover:border-canvas-500 hover:bg-canvas-800/80
+           transition-all duration-200;
+  }
+
+  /* Feature cards */
+  .feature-card {
+    @apply relative p-6 rounded-2xl
+           bg-gradient-to-br from-canvas-800/80 to-canvas-900/80
+           border border-canvas-700/50
+           transition-all duration-300
+           hover:border-brand/30 hover:shadow-glow;
+  }
+
+  /* Video tile styling */
+  .video-tile {
+    @apply relative bg-canvas-800 rounded-xl overflow-hidden aspect-video
+           border border-canvas-700/50 shadow-lg;
+  }
+
+  .video-tile video {
+    @apply w-full h-full object-cover;
+  }
+
+  /* Control buttons */
+  .control-btn {
+    @apply p-3.5 rounded-xl transition-all duration-150
+           hover:scale-105 active:scale-95;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1
+           text-xs font-medium rounded-full;
+  }
+
+  .badge-brand {
+    @apply badge bg-brand/10 text-brand-300 border border-brand/20;
+  }
+
+  .badge-success {
+    @apply badge bg-success/10 text-success border border-success/20;
+  }
+
+  /* Section containers */
+  .section {
+    @apply px-6 lg:px-8;
+  }
+
+  .section-content {
+    @apply max-w-6xl mx-auto;
+  }
+
+  /* Grid pattern overlay */
+  .grid-pattern {
+    background-size: 60px 60px;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+  }
+}
+
+@layer utilities {
+  /* Stagger delays */
+  .delay-1 { animation-delay: 100ms; }
+  .delay-2 { animation-delay: 200ms; }
+  .delay-3 { animation-delay: 300ms; }
+  .delay-4 { animation-delay: 400ms; }
+
+  /* Custom scrollbar */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.canvas.600') transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: theme('colors.canvas.600');
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: theme('colors.canvas.500');
+  }
+
+  /* Hide scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Text gradient */
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand-300 via-brand-400 to-brand-500 bg-clip-text text-transparent;
+  }
+}

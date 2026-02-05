@@ -1,0 +1,14 @@
+version: '3.8'
+
+# Development docker-compose - only runs the server
+# Run with: docker compose -f docker-compose.dev.yml up
+
+services:
+  server:
+    build:
+      context: .
+      target: server
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
